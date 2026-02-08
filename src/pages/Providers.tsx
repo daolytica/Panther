@@ -544,12 +544,8 @@ export function Providers() {
                         const enabled = e.target.checked;
                         if (enabled) {
                           const confirmed = window.confirm(
-                            '⚠️ WARNING: Unrestricted mode enables jailbreak prompts that bypass safety filters.\n\n' +
-                            'This mode can generate:\n' +
-                            '- Phishing emails\n' +
-                            '- Malware scripts\n' +
-                            '- Other potentially harmful content\n\n' +
-                            'Use only for legitimate security research or testing.\n\n' +
+                            '⚠️ WARNING: Unrestricted mode bypasses safety filters.\n\n' +
+                            'You are responsible for how you use this feature. Use at your own risk and in compliance with applicable laws.\n\n' +
                             'Do you want to enable unrestricted mode?'
                           );
                           if (!confirmed) {
