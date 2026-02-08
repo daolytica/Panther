@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+	autocrlf = true
+[branch "main"]
+	gk-last-accessed = 2026-02-08T14:44:04.079Z
+	gk-last-modified = 2026-02-05T15:55:12.746Z
+	remote = origin
+	merge = refs/heads/main
+[remote "origin"]
+	url = https://github.com/daolytica/Panther.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
