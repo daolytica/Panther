@@ -1,0 +1,69 @@
+# Build Panther for Windows and macOS
+# Mac builds require macOS runners (cross-compile from Windows is not supported)
+# Trigger: push to 'release' branch or manual workflow_dispatch
+#
+# Required: In repo Settings → Actions → General → Workflow permissions:
+#   Select "Read and write permissions"
+
+name: Build Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - release
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest
+            args: --target aarch64-apple-darwin
+          - platform: macos-latest
+            args: --target x86_64-apple-darwin
+          - platform: windows-latest
+            args: ""
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build and release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: "Panther v__VERSION__"
+          releaseBody: |
+            ## Downloads
+            - **Windows**: `.exe` installer or `.msi`
+            - **macOS (Apple Silicon M1/M2/M3)**: `.dmg` (aarch64)
+            - **macOS (Intel)**: `.dmg` (x86_64)
+          releaseDraft: true
+          args: ${{ matrix.args }}

@@ -1,0 +1,17 @@
+# Cargo configuration to reduce build artifact sizes
+
+[build]
+# Keep incremental compilation for faster rebuilds, but it can be large
+# Set to false if you want to save space (slower rebuilds)
+incremental = true
+
+# Reduce debug info to save space (still enough for debugging)
+[profile.dev]
+debug = 1  # 1 = line tables only (smaller than full debug=2)
+strip = false  # Keep symbols for debugging
+
+[profile.release]
+debug = false   # No debug info in release builds
+strip = true    # Strip symbols to reduce size
+lto = true      # Link-time optimization for smaller binary (slower builds)
+opt-level = "z" # Optimize for size (use "s" for size + slightly faster)

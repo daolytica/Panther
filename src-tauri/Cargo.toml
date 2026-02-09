@@ -1,0 +1,81 @@
+[package]
+name = "brain-stormer"
+version = "0.1.0"
+description = "Multi-LLM Brainstorm Desktop App"
+authors = ["Reza Mirfayzi"]
+edition = "2021"
+default-run = "brain-stormer"
+
+[features]
+default = []
+# Voice: local Whisper STT (requires libclang, cmake for build). When disabled, voice commands return helpful errors.
+voice = ["whisper-rs"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "brain_stormer_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "panther-agent"
+path = "src/bin/panther-agent.rs"
+
+[[bin]]
+name = "panther-http-server"
+path = "src/bin/panther-http-server.rs"
+
+[[bin]]
+name = "setup-user"
+path = "src/bin/setup-user.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.31", features = ["bundled"] }
+uuid = { version = "1.10", features = ["v4", "serde"] }
+keyring = "2.2"
+# Only enable tokio features we use (rt, net, io, sync, time, spawn, process); "full" bloats the binary
+tokio = { version = "1", features = ["rt-multi-thread", "net", "io-util", "sync", "time", "macros", "process"] }
+reqwest = { version = "0.12", features = ["json", "stream"] }
+futures = "0.3"
+anyhow = "1.0"
+thiserror = "1.0"
+async-trait = "0.1"
+futures-util = "0.3"
+chrono = { version = "0.4", features = ["serde"] }
+rand = "0.8"
+bcrypt = "0.15"
+scraper = "0.19"
+regex = "1.10"
+urlencoding = "2.1"
+walkdir = "2.5"
+lopdf = "0.33"
+zip = "0.6"
+shellexpand = "3.1"
+dirs = "5.0"
+quick-xml = "0.31"
+# Privacy layer dependencies
+hmac = "0.12"
+sha2 = "0.10"
+base64 = "0.21"
+aes-gcm = "0.10"
+# Cache and compression
+flate2 = "1.0"
+memmap2 = "0.9"
+# HTTP server for browser mode
+axum = { version = "0.7", features = ["json"] }
+tower-http = { version = "0.5", features = ["cors"] }
+# Voice: optional. Enable with --features voice (requires libclang, cmake)
+whisper-rs = { version = "0.15", optional = true }
+hound = "3.5"
+
