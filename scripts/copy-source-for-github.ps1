@@ -25,7 +25,10 @@ $ExcludeDirs = @(
 $ExcludeFiles = @(
     ".env",
     ".env.local",
+<<<<<<< HEAD
     ".env.production",
+=======
+>>>>>>> c8fe09ec5e658fed867e787936d1bba5c4d13a6b
     ".env.*",
     "*.db",
     "*.sqlite",
@@ -66,8 +69,12 @@ $PathsToClean = @(
     (Join-Path $SourceDestDir "node_modules"),
     (Join-Path $SourceDestDir "dist"),
     (Join-Path $SourceDestDir "src-tauri\target"),
+<<<<<<< HEAD
     (Join-Path $SourceDestDir ".git"),
     (Join-Path $SourceDestDir ".git_disabled")
+=======
+    (Join-Path $SourceDestDir ".git")
+>>>>>>> c8fe09ec5e658fed867e787936d1bba5c4d13a6b
 )
 foreach ($p in $PathsToClean) {
     if (Test-Path $p) {

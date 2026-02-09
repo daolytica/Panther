@@ -18,7 +18,7 @@ This folder contains the Panther source code, sanitized for public sharing.
 - dist/ (frontend build output)
 - .env, .env.local (API keys, secrets)
 - *.db, *.sqlite (user databases)
-- .git/ (version history - init fresh for your repo)
+- .git/, .git_disabled/ (version history - init fresh for your repo)
 - Voice model binaries (voice/whisper/*.bin)
 - Personal files (Brain_passes.txt, IDE_prompt.txt, etc.)
 
